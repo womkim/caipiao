@@ -1,0 +1,22 @@
+{
+  "name": "caipiao",
+  "version": "1.0.0",
+  "description": "node study",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ssq.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/womkim/caipiao.git"
+  },
+  "keywords": [
+    "彩票，双色球，node"
+  ],
+  "author": "qinjun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/womkim/caipiao/issues"
+  },
+  "homepage": "https://github.com/womkim/caipiao#readme"
+}
