@@ -2,6 +2,7 @@
 
 const http = require('http')
 const fs = require('fs')
+const path = require('path')
 const cheerio = require('cheerio')
 
 /**
@@ -67,7 +68,7 @@ function getBalls(num) {	// num为数字，表示第num页
 
 			console.log(`获取第 ${num} 页数据成功~ (^_^) ...`)
 			if (num === total) {
-				fs.writeFile('data.json', JSON.stringify(ssq))		// 保存为 json 格式
+				fs.writeFile(path.join(__dirname+'/data.json'), JSON.stringify(ssq))		// 保存为 json 格式
 				return
 			}
 

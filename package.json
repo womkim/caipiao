@@ -4,7 +4,7 @@
   "description": "node study",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssq.js"
+    "dev": "node ssq/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/womkim/caipiao/issues"
   },
-  "homepage": "https://github.com/womkim/caipiao#readme"
+  "homepage": "https://github.com/womkim/caipiao#readme",
+  "devDependencies": {
+    "cheerio": "^0.22.0"
+  }
 }

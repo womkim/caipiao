@@ -6,14 +6,15 @@
 在node环境下，安装cheerio依赖，直接使用命令
 
 ```javascript
-npm install
-或者 ： npm install cheerio
+		npm install
+or		npm install cheerio
 ```
 
 使用node直接运行即可，如：
 
-```
-node ssq/app.js
+```javascript
+		node ssq/app.js
+or		npm run dev
 ```
 
 即进行双色球数据爬取。
