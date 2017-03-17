@@ -44,7 +44,7 @@ function getBalls(num) {	// num为数字，表示第num页
 			const length = $blueBall.length / 3 				// 每期出现3个球，页面期数以蓝球数量/3为准
 
 			if (length === 0) {
-				console.log(`未爬取到数据...`)
+				console.log(`未获取到数据...(T_T)，重新获取中...`)
 				getBalls(num)
 				return
 			}
