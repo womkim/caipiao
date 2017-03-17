@@ -4,6 +4,7 @@ const http = require('http')
 const fs = require('fs')
 const path = require('path')
 const cheerio = require('cheerio')
+const iconv = require('iconv-lite')		// 用于解决获取的页面乱码的问题
 
 /**
   @date 2017-3-16
@@ -22,62 +23,75 @@ const cheerio = require('cheerio')
  */
 
 let daletou = { balls: [] }
-// 百度说自第14052期(2014年5月5日20:10开售)起，变更中国体育彩票超级大乐透游戏规则
-console.log(`开始获取页面数据，请耐心等待...`)
+// 百度查到自第14052期(2014年5月5日20:10开售)起，变更中国体育彩票超级大乐透游戏规则
+// 这里将爬取2007年以来的所有数据
+const total = process.env.TOTAL || 51			// 截止到20170315，最后一期为2017029，共51个页面记录，每个页面最多30条
 
+console.log(`开始获取页面数据，请耐心等待...`)
 getBalls(1)
+
 function getBalls(num) {	// num为数字，表示第num页
-	
 
 	http.get('http://kj.cjcp.com.cn/dlt/index.php?topage='+num, (res) => {
 
-		let html = ''
+		let html = []
 
-		res.on('data', (data) => { html += data })	// data为buffer数据
+		res.on('data', (data) => { html.push(data) })
 
 		res.on('end', () => {
 
-			const $ = cheerio.load(html)		// 拿到的都是数字，不需要解决编码问题
+			const str = iconv.decode(Buffer.concat(html), 'gb2312')			// 该网页是以 gb2312 编码的， 拿到的期号会有文字，需要先解决乱码问题（可以截取只留下数字，就不存在乱码的问题）
+			const $ = cheerio.load(str)
 
-			console.log($.html())
 			if ($.html() === '') {
+				console.log(`第${num}页没有获取到数据~ (T_T)，重新获取中...`)
 				getBalls(num)
 				return
 			}
-			const $redBall = $('.balls .redBalls')				// 拿到页面中所有红球
-			const $blueBall = $('table.historylist .balls .blueBalls em')				// 拿到页面中所有蓝球
-			const $issueNumber = $('table.historylist > tbody > tr td:first-child')	// 每一期的期号
 
+			const $redBall = $('.q_red')				// 拿到页面中所有红球
+			const $blueBall = $('.q_blue')			// 拿到页面中所有蓝球
+			const $issueNumber = $('.qihao')		// 每一期的期号
+			var length = $issueNumber.length
 
-			// console.log($blueBall)
+			let balls = []
+			let countR = 0		// 用于记录红球
+			let countB = 0		// 用于记录蓝球
+			for (let i = 0; i < length; i++) {
+				let everyIssue = {}				// 记录每一期数据
+				// 期号
+				everyIssue.issueNumber = $issueNumber[i].children[0].data 	// 当期期号			// 该页面是的球是用input标签记录的，通过attribs.value获取
+				// 红球
+				everyIssue.redBall = []
+				for (let j = 0; j < 5; j++) {	// 每期5个红球
+					everyIssue.redBall.push($redBall[countR].attribs.value)
+					countR++
+				}
+				// 蓝球
+				everyIssue.blueBall = []			// 每期2个蓝球
+				for (let j = 0; j < 2; j++) {
+					everyIssue.blueBall.push($blueBall[countB].attribs.value)
+					countB++
+				}
+				// 将每期号码保存到数组中
+				balls.push(everyIssue)
+			}
 
-			// let balls = []
-			// for (let i = 0; i < length; i++) {
-			// 	let everyIssue = {}				// 记录每一期数据
-			// 	everyIssue.issueNumber = $issueNumber[i].children[0].data 	// 当期期号
-			// 	everyIssue.redBall = []
-			// 	for (let j = 0; j < 5; j++) {	// 每期3个球
-			// 		everyIssue.redBall.push($redBall[j].children[0].data)
-			// 	}
-			// 	everyIssue.blueBall = []
-			// 	everyIssue.blueBall.push($blueBall[0].children[0].data)
-			// 	everyIssue.blueBall.push($blueBall[1].children[0].data)
-			// 	balls.push(everyIssue)			// 将每期号码保存到数组中
-			// }
+			daletou.balls = daletou.balls.concat(balls)			// 将当前页面记录的数据保存下来
 
-			// daletou.balls = daletou.balls.concat(balls)			// 将当前页面记录的数据保存下来
+			console.log(`获取第 ${num} 页数据成功~ (^_^) ...`)
+			if (num === total) {			// 在最后一次写入到文件中
+				fs.writeFile(path.join(__dirname+'/data.json'), JSON.stringify(daletou))		// 保存为 json 格式
+				return
+			}
 
-			console.log(`获取数据成功~ (^_^) ...`)
-			fs.writeFile(path.join(__dirname+'/data.json'), JSON.stringify(daletou))		// 保存为 json 格式
+			getBalls(num+1)		// 获取下一页数据
 
 		})
 
 	}).on('error', () => {
-		console.log(`获取数据失败~ (T_T)，重新获取中...`)
-		getBalls()		// 获取失败时重新获取当页
+		console.log(`获取第 ${num} 页数据失败~ (T_T)，重新获取中...`)
+		getBalls(num)		// 获取失败时重新获取当页
 	})
 
 }
-
-
-// 'http://kj.cjcp.com.cn/dlt/index.php?topage=1'

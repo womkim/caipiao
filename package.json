@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/womkim/caipiao#readme",
   "devDependencies": {
-    "cheerio": "^0.22.0"
+    "cheerio": "^0.22.0",
+    "iconv-lite": "^0.4.15"
   }
 }

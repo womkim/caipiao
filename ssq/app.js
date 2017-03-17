@@ -33,7 +33,6 @@ console.log(`开始获取页面数据，请耐心等待...`)
 getBalls(1)
 
 function getBalls(num) {	// num为数字，表示第num页
-	
 
 	http.get('http://kaijiang.zhcw.com/zhcw/html/ssq/list_' + num + '.html', (res) => {
 
@@ -44,6 +43,12 @@ function getBalls(num) {	// num为数字，表示第num页
 		res.on('end', () => {
 
 			const $ = cheerio.load(html)		// 拿到的都是数字，不需要解决编码问题
+
+			if ($.html() === '') {
+				console.log(`第${num}页没有获取到数据~ (T_T)，重新获取中...`)
+				getBalls(num)
+				return
+			}
 
 			const $redBall = $('em.rr') 					// 拿到页面中所有红球
 			const $blueBall = $('em:not(.rr)')				// 拿到页面中所有蓝球
