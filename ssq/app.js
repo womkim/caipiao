@@ -27,7 +27,7 @@ const cheerio = require('cheerio')
  */
 
 let ssq = { balls: [] }
-const total = process.env.TOTAL || 105		// 截止到20170314，最后一期为2017029，总共105个页面记录
+const total = process.env.TOTAL || 108		// 截止到20170807，最后一期为2017091，总共108个页面记录
 
 console.log(`开始获取页面数据，请耐心等待...`)
 getBalls(1)
@@ -72,7 +72,7 @@ function getBalls(num) {	// num为数字，表示第num页
 			ssq.balls = ssq.balls.concat(balls)			// 将当前页面记录的数据保存下来
 
 			console.log(`获取第 ${num} 页数据成功~ (^_^) ...`)
-			if (num === total) {
+			if (num == total) {
 				fs.writeFile(path.join(__dirname+'/data.json'), JSON.stringify(ssq))		// 保存为 json 格式
 				return
 			}
