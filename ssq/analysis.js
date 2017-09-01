@@ -48,9 +48,21 @@ function analysisBlue (data, key) {
   let nextTimeNumberBlue = []
   // the ball after a ball come out once
   for (let i = 0; i < data.length - 1; i++) {
-    let count = 1
-    nextTimeNumberBlue.push([data[i], data[i + 1], 1])
+    for (let j = 0; j < nextTimeNumberBlue.length; j++) {
+      let d = nextTimeNumberBlue[j]
+      console.log(d[0])
+      if (d[0] !== data[i]) {
+        nextTimeNumberBlue.push([data[i], data[i + 1], 1])
+      } else {
+        if (d[1] === data[i + 1]) {
+          nextTimeNumberBlue[j][2] = d[2] + 1
+        } else {
+          nextTimeNumberBlue.push([data[i], data[i + 1], 1])
+        }
+      }
+    }
   }
+  log('nextTimeNumberBlue', nextTimeNumberBlue)
   // make unique
 }
 
@@ -62,7 +74,7 @@ data.map(item => {
     years.push(year)
   }
 })
-log('data', data)
+// log('data', data)
 
 // log all exists years
 // log('all years', years)
