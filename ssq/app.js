@@ -27,7 +27,7 @@ const cheerio = require('cheerio')
  */
 
 let ssq = { balls: [] }
-const total = process.env.TOTAL || 108		// 截止到20170807，最后一期为2017091，总共108个页面记录
+let total = 108		// 该数字可不设置具体值。截止到20170807，最后一期为2017091，总共108个页面记录
 
 console.log(`开始获取页面数据，请耐心等待...`)
 getBalls(1)
@@ -52,6 +52,13 @@ function getBalls (num) {	// num为数字，表示第num页
       const $issueNumber = $('tr>td:nth-child(2)')	// 每一期的期号
       const length = $blueBall.length 				// 页面期数以蓝球数量为准
 
+      if (num === 1) {
+        let tt = $('.pg strong')[0].children[0].data
+        if (tt !== total) {
+          total = tt
+        }
+      }
+
       let balls = []
       let count = 0		// 用于记录红球
       for (let i = 0; i < length; i++) {
@@ -62,15 +69,15 @@ function getBalls (num) {	// num为数字，表示第num页
           everyIssue.redBall.push($redBall[count].children[0].data)
           count++
         }
-        everyIssue.blueBall = $blueBall[i].children[0].data 		// 当期蓝球号码
+        everyIssue.blueBall = [$blueBall[i].children[0].data] 		// 当期蓝球号码
         balls.push(everyIssue)			// 将每期号码保存到数组中
       }
 
       ssq.balls = ssq.balls.concat(balls)			// 将当前页面记录的数据保存下来
 
-      console.log(`获取第 ${num} 页数据成功~ (^_^) ...`)
-      if (num === total) {
-        fs.writeFile(path.join(__dirname + '/data.json'), JSON.stringify(ssq))		// 保存为 json 格式
+      console.log(`共 ${total} 页，获取第 ${num} 页数据成功~ (^_^) ...`)
+      if (num == total) {
+        fs.writeFile(path.join(__dirname + '/data.json'), JSON.stringify(ssq, null, 2))		// 保存为 json 格式
         return
       }
 

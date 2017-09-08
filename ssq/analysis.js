@@ -2,18 +2,8 @@
 // var http = require('http')
 // var https = require('https')
 
+const { log, getYears } = require('./util')
 var data = require('./data.json').balls
-
-// console.log(data)
-
-function log (str = 'empty', data = '', sign = 'b') {
-  if (typeof data === 'object') {
-    console.log(`>『 $${sign} ~ 』 " ${str} " ->:`)
-    console.log(data)
-  } else {
-    console.log(`>『 $${sign} ~ 』 " ${str} " ->:  ${data}`)
-  }
-}
 
 /*
  * blueball analysis 
@@ -67,13 +57,7 @@ function analysisBlue (data, key) {
 }
 
 // get the year
-let years = []
-data.map(item => {
-  let year = item.issueNumber.substr(0, 4)
-  if (years.indexOf(year) === -1) {
-    years.push(year)
-  }
-})
+let years = getYears(data)
 // log('data', data)
 
 // log all exists years
