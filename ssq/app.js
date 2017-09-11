@@ -20,7 +20,7 @@ const cheerio = require('cheerio')
 			{
 				issueNumber: '',      // 期号
 				redBall: [],          // 红球
-				blueBall: ''          // 蓝球
+				blueBall: []          // 蓝球
 			}
 		]
 	}
