@@ -8,39 +8,6 @@ var data = require('./data.json').balls
 var startTime = new Date().getTime()
 // console.log(data)
 
-function strSign (sign, len) {
-  let str = sign
-  for (let i = 0; i < len - 1; i++) {
-    str += sign
-  }
-  return {
-    start: '╔' + str + '╗',
-    end: '╚' + str + '╝'
-  }
-}
-
-function log (str = 'empty', data = '', sign = 'b') {
-  str = str.substr(0, 1).toUpperCase().concat(str.substr(1))
-  let printStr = ''
-  if (typeof data === 'object') {
-    printStr = `║ $${sign} ~ " ${str} " ->:  ║`
-  } else {
-    printStr = `║ $${sign} ~ " ${str} " ->:  ${data}  ║`
-  }
-  const { start, end } = strSign('═', printStr.length)
-  // before print
-  const strColorBlue = '\x1B[36m%s\x1B[39m'
-  const strColorYellow = '\x1B[33m%s\x1B[39m'
-  console.log()
-  console.log(strColorBlue, start)
-  // print data
-  console.log(strColorBlue, printStr)
-  if (typeof data === 'object') {
-    console.log(data)
-  }
-  // after print
-  console.log(strColorBlue, end)
-}
 /*
  * blueball analysis 
  *  
