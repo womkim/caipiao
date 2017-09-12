@@ -5,10 +5,10 @@ data.sort((a, b) => a.issueNumber - b.issueNumber)
 // console.log(data)
 // 
 
-const cutBlueStart = 0
-const cutBlueEnd = 3
-const cutRedStart = 0
-const cutRedEnd = 2
+const cutBlueStart = 1
+const cutBlueEnd = 5
+const cutRedStart = 1
+const cutRedEnd = 3
 
 const amost = (data, type) => {
   if (!isArray(data)) {
@@ -126,6 +126,8 @@ blueExpect.sort((a, b) => b[2] - a[2])
 let resultBlue = []
 for (let i = cutBlueStart; i < cutBlueEnd; i++) {
   resultBlue.push(blueExpect[i][1])
+}
+for (let i = 0; i < 4; i++) {
   resultBlue.push(blueBallMost[i][0])
 }
 // resultBlue = resultBlue.unique()
@@ -143,7 +145,7 @@ for (let i = 0; i < lidRed.length; i++) {
     resultRed.push(redExpect[j][1])
   }
 }
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 4; i++) {
   resultRed.push(redBallMost[i][0])
 }
 // resultRed = resultRed.unique()
