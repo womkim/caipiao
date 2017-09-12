@@ -1,8 +1,15 @@
-
+const startTime = new Date().getTime()
 const { log, isArray, isRepeat, getRand, getN, filterData } = require('./util')
 const data = require('./data.json').balls
 data.sort((a, b) => a.issueNumber - b.issueNumber)
 // console.log(data)
+// 
+
+const cutBlueStart = 0
+const cutBlueEnd = 3
+const cutRedStart = 0
+const cutRedEnd = 2
+
 const amost = (data, type) => {
   if (!isArray(data)) {
     log('error', 'data is not an array.')
@@ -96,15 +103,65 @@ afterByRedData.sort((a, b) => a[0] - b[0] || a[1] - b[1])
 // afterByRedData.map(_ => sumr += _[2])
 // console.log(sumr)
 // console.log(sumr / sumb)
-// 
-const bbdd = filterData('07', afterByBlueData)
-bbdd.sort((a, b) => b[2] - a[2])
-const rrdd = filterData('01', afterByRedData)
-rrdd.sort((a, b) => b[2] - a[2])
-log('07', bbdd)
-log('01', rrdd)
-
 //
+// // test analysis 
+// const bbdd = filterData('07', afterByBlueData)
+// bbdd.sort((a, b) => b[2] - a[2])
+// const rrdd = filterData('01', afterByRedData)
+// rrdd.sort((a, b) => b[2] - a[2])
+// log('07', bbdd)
+// log('01', rrdd)
+
+// the last issue result
+const lastIssueData = data[data.length - 1]
+// log('last issue data', lastIssueData)
+const lidBlue = lastIssueData.blueBall
+const lidRed = lastIssueData.redBall
+// log('last issue blue ball', lidBlue)
+// log('last issue red ball', lidRed)
+
+// analysis base last issue data
+const blueExpect = filterData(lidBlue[0], afterByBlueData)
+blueExpect.sort((a, b) => b[2] - a[2])
+let resultBlue = []
+for (let i = cutBlueStart; i < cutBlueEnd; i++) {
+  resultBlue.push(blueExpect[i][1])
+  resultBlue.push(blueBallMost[i][0])
+}
+// resultBlue = resultBlue.unique()
+log('the blue ball maybe come out', resultBlue.unique())
+// log('the most come out number', resultBlue)
+const shouldBuyBlue = getN(resultBlue, 1)
+shouldBuyBlue.sort()
+// log('in the end, you should buy this blue ball number', shouldBuyBlue)
+
+let resultRed = []
+for (let i = 0; i < lidRed.length; i++) {
+  let redExpect = filterData(lidRed[i], afterByRedData)
+  redExpect.sort((a, b) => b[2] - a[2])
+  for (let j = cutRedStart; j < cutRedEnd; j++) {
+    resultRed.push(redExpect[j][1])
+  }
+}
+for (let i = 0; i < 3; i++) {
+  resultRed.push(redBallMost[i][0])
+}
+// resultRed = resultRed.unique()
+log('the red ball maybe come out', resultRed.unique())
+const shouldBuyRed = getN(resultRed, 6)
+shouldBuyRed.sort()
+// log('you could buy six of this red ball number', shouldBuyRed)
+
+const finalResult = {
+  redBall: shouldBuyRed,
+  blueBall: shouldBuyBlue
+}
+log('finally, you shuold buy these number', finalResult)
+
+// const redExpect = filterData(lidRed[0], afterByRedData)
+// redExpect.sort((a, b) => b[2] - a[2])
+// log('expect blue ball', redExpect)
+// log('the most after blue ball', blueBallMost)
 //
 //
 //
@@ -158,3 +215,6 @@ log('01', rrdd)
 //   redball.push(tmp)
 // }
 // console.log('red ball', redball)
+
+const endTime = new Date().getTime()
+console.log('\n Time spend ' + (endTime - startTime) / 1000 + 's')

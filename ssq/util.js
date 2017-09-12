@@ -77,10 +77,24 @@ const isRepeat = (before, after, array) => {
 
 const filterData = (no, data) => data.filter(_ => _[0] === no)
 
+Array.prototype.unique = function () {
+  let arr = []
+  this.sort()
+  arr.push(this[0])
+  for (let i = 1; i < this.length; i++) {
+    if (this[i - 1] !== this[i]) {
+      arr.push(this[i])
+    }
+  }
+  return arr
+}
+
 module.exports = {
   log,
   getYears,
   isArray,
   isRepeat,
-  filterData
+  filterData,
+  getN,
+  getRand
 }
