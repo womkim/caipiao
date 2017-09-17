@@ -5,9 +5,9 @@ data.sort((a, b) => a.issueNumber - b.issueNumber)
 // console.log(data)
 // 
 
-const cutBlueStart = 1
+const cutBlueStart = 0
 const cutBlueEnd = 5
-const cutRedStart = 1
+const cutRedStart = 0
 const cutRedEnd = 3
 
 const amost = (data, type) => {
@@ -36,14 +36,6 @@ const amost = (data, type) => {
   return balls
 }
 
-const redBallMost = amost(data, 'redBall')
-const blueBallMost = amost(data, 'blueBall')
-
-redBallMost.sort((a, b) => b[1] - a[1])
-blueBallMost.sort((a, b) => b[1] - a[1])
-
-// log('redBall', redBallMost, 'r')
-// log('blueBall', blueBallMost, 'r')
 
 const afterBy = (data, type) => {
   if (!isArray(data)) {
@@ -77,14 +69,26 @@ const afterBy = (data, type) => {
   return temp2
 }
 
+// ---------- 打印历史球出现最多的次数排序
+const redBallMost = amost(data, 'redBall')
+const blueBallMost = amost(data, 'blueBall')
+
+redBallMost.sort((a, b) => b[1] - a[1])
+blueBallMost.sort((a, b) => b[1] - a[1])
+
+log('redBall', redBallMost, 'r')
+log('blueBall', blueBallMost, 'b')
+
+
+// ---------- 打印在该球出现之后历史出现最多的球次数排序
 const afterByBlueData = afterBy(data, 'blueBall')
 afterByBlueData.sort((a, b) => a[0] - b[0] || a[1] - b[1])
 
 const afterByRedData = afterBy(data, 'redBall')
 afterByRedData.sort((a, b) => a[0] - b[0] || a[1] - b[1])
 
-// log('blueBall', afterByBlueData, 'r')
 // log('redBall', afterByRedData, 'r')
+// log('blueBall', afterByBlueData, 'b')
 
 // // 验证长度
 // console.log(afterByBlueData.length)
@@ -112,6 +116,7 @@ afterByRedData.sort((a, b) => a[0] - b[0] || a[1] - b[1])
 // log('07', bbdd)
 // log('01', rrdd)
 
+// ---------- 打印最新一期出现的球
 // the last issue result
 const lastIssueData = data[data.length - 1]
 // log('last issue data', lastIssueData)
@@ -119,10 +124,15 @@ const lidBlue = lastIssueData.blueBall
 const lidRed = lastIssueData.redBall
 // log('last issue blue ball', lidBlue)
 // log('last issue red ball', lidRed)
+log('the latest issue', lastIssueData)
 
+
+
+// --------- 按出现最多的球和下期出现最多的球给出预测
 // analysis base last issue data
 const blueExpect = filterData(lidBlue[0], afterByBlueData)
 blueExpect.sort((a, b) => b[2] - a[2])
+
 let resultBlue = []
 for (let i = cutBlueStart; i < cutBlueEnd; i++) {
   resultBlue.push(blueExpect[i][1])
@@ -133,14 +143,18 @@ for (let i = 0; i < 4; i++) {
 // resultBlue = resultBlue.unique()
 log('the blue ball maybe come out', resultBlue.unique())
 // log('the most come out number', resultBlue)
+
+// ------ 从期望数组中随机取出一个值，作为蓝球购买预测
 const shouldBuyBlue = getN(resultBlue, 1)
 shouldBuyBlue.sort()
 // log('in the end, you should buy this blue ball number', shouldBuyBlue)
 
 let resultRed = []
+let redExpectAll = []
 for (let i = 0; i < lidRed.length; i++) {
   let redExpect = filterData(lidRed[i], afterByRedData)
   redExpect.sort((a, b) => b[2] - a[2])
+  redExpectAll.push(redExpect)
   for (let j = cutRedStart; j < cutRedEnd; j++) {
     resultRed.push(redExpect[j][1])
   }
@@ -158,6 +172,12 @@ const finalResult = {
   redBall: shouldBuyRed,
   blueBall: shouldBuyBlue
 }
+
+// blue ball expect
+// log('blue ball expect', blueExpect, 'b')
+// red ball expect
+// log('red ball expect', redExpectAll, 'r')
+
 log('finally, you shuold buy these number', finalResult)
 
 // const redExpect = filterData(lidRed[0], afterByRedData)
