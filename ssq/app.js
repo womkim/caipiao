@@ -77,7 +77,9 @@ function getBalls (num) {	// num为数字，表示第num页
 
       console.log(`共 ${total} 页，获取第 ${num} 页数据成功~ (^_^) ...`)
       if (num == total) {
-        fs.writeFile(path.join(__dirname + '/data.json'), JSON.stringify(ssq, null, 2))		// 保存为 json 格式
+        fs.writeFile(path.join(__dirname + '/data.json'), JSON.stringify(ssq, null, 2), function (err, result) {
+          console.log(err, result)
+        })		// 保存为 json 格式
         return
       }
 
