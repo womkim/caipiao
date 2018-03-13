@@ -41,19 +41,19 @@ const maximunBalls = data => {
   return result
 }
 
-let dyear = d(2018)
-let rballs = redBalls(dyear)
-rballs = redBalls(data)
-let bballs = blueBalls(dyear)
-bballs = blueBalls(data)
+// let dyear = d(2018)
+// let rballs = redBalls(dyear)
+// rballs = redBalls(data)
+// let bballs = blueBalls(dyear)
+// bballs = blueBalls(data)
 
-const mbr = maximunBalls(rballs)
-mbr.sort((a, b) => b[1] - a[1])
-print(mbr)
+// const mbr = maximunBalls(rballs)
+// mbr.sort((a, b) => b[1] - a[1])
+// print(mbr)
 
-const mbb = maximunBalls(bballs)
-mbb.sort((a, b) => b[1] - a[1])
-print(mbb)
+// const mbb = maximunBalls(bballs)
+// mbb.sort((a, b) => b[1] - a[1])
+// print(mbb)
 
 // test
 // let c = 0
