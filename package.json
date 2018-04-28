@@ -22,5 +22,8 @@
   "devDependencies": {
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15"
+  },
+  "dependencies": {
+    "brain.js": "^1.0.5"
   }
 }
