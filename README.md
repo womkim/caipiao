@@ -1,39 +1,39 @@
-## Node 学习测试程序
-使用node爬取的彩票中奖信息
+## Node Learning test program （[点我查看中文文档](README.ZH.md)）
+use node crawling lottery winning information
 
-- 当前程序仅使用node基本模块http、fs 和cheerio进行简单的操作。
-- 在node环境下，直接使用命令
+- The current program uses only the node base modules http, fs, and cheerio for simple operations.
+- In the node environment, use the command directly
 
 ```nodejs
 	npm install
 ```
-或者安装cheerio（主要）和iconv-lite（用于解码）依赖，
+or install cheerio（main）and iconv-lite（For decoding）depend，
 ```nodejs
 	npm install cheerio iconv-lite
 ```
 
-- 使用node直接运行即可，如：
+- use node Run directly，example：
 
 ```nodejs
 	node ssq/app.js
 ```
-即进行双色球数据爬取。（文件夹里面只有双色球数据会有read me文档，其他因为代码内容相似，所以不多累述）
+That is, the two-color ball data crawling is performed. (There are only two-color ball data in the folder, there will be read me documents, other because the code content is similar, so not much to say)
 
 
 
-- 目录下`app.js`为程序文件，爬取的数据将以JSON文件形式保存到`data.json`文件中
-- 目录对应的名称是：
-  - `/ssq/`	         ->双色球
-  - `/7lecai/`     ->7乐彩
-  - `/3D/`              ->福彩3D
-  - `/daletou/`   ->大乐透
+- In the directory `app.js` is the program file, the crawled data will be saved to the `data.json` file as a JSON file.
+- The corresponding name of the directory is：
+  - `/ssq/`	         ->two-color ball
+  - `/7lecai/`     ->7 lecai
+  - `/3D/`              ->fucai 3D
+  - `/daletou/`   ->Lotto
 
 
 
-- 爬取最新数据时，需要事先知道有多少个页面（也可以在页面上末页的href中取到），页面地址在程序中可以找到，这里为图简单采用手动记录的方式。
-- 其中
+- When crawling the latest data, you need to know in advance how many pages (you can also get it in the href on the last page of the page). The page address can be found in the program. Here, the manual is simple to record.
+- among them
 
-  - 双色球、福彩3D、7乐彩爬取的网站是：http://www.zhcw.com/
-  - 大乐透爬取的网站是：http://kj.cjcp.com.cn/
-- 程序还有很多需要改进的地方，有问题可以在Issues中提出，欢迎给出批评意见。
-- 郑重声明：本项目纯属兴趣爱好，属于在学习node过程中的一个测试项目，拿到的数据仅供参考。严禁用作商业用途！
+  - two-color ball, fucai 3D, 7 lecai color crawling website is：http://www.zhcw.com/
+  - The website that the big lottery crawls is：http://kj.cjcp.com.cn/
+- There are still a lot of things to improve in the program, and there are problems that can be raised in Issues. Comments are welcome.
+- Solemnly declare: This project is purely a hobby, belonging to a test project in the process of learning node, the data obtained is for reference only. It is strictly prohibited for commercial use!
