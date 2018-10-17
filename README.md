@@ -1,8 +1,8 @@
-## Node Learning test program
+## Node Learning test program （[点我查看中文文档](README.ZH.md)）
 use node crawling lottery winning information
 
-- 当前程序仅使用node基本模块http、fs 和cheerio进行简单的操作。
-- 在node环境下，直接使用命令
+- The current program uses only the node base modules http, fs, and cheerio for simple operations.
+- In the node environment, use the command directly
 
 ```nodejs
 	npm install
